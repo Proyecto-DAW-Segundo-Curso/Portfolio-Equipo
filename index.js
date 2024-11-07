@@ -22,7 +22,11 @@ app.get('/clientes', (req, res) => {
   res.render('clientes')
 });
 
+const mysite = require('./routes/misitio');
+app.use('/misitio', mysite);
 
+// Recursos estáticos del sitio nuevo
+app.use(express.static('public'));
 
 // Levanto el servidor en puerto 3005
 app.listen(3005)
