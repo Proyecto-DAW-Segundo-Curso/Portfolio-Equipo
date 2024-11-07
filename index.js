@@ -14,7 +14,12 @@ app.set('view engine', "handlebars");
 // Configuramos ruteo
 app.get('/', (req, res) => {
   // Renderiza la vista home
-  res.render('home')
+  res.render('home', {
+    title: 'Este es mi site web',
+    subtitle: 'Gracias por venir',
+    arrLang: ['Js', 'C#', 'Phyton', 'Java'],
+    content: 'Qué dise usteer enim dolor commodo',
+  });
 });
 
 app.get('/clientes', (req, res) => {
