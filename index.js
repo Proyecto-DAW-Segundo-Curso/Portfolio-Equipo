@@ -3,6 +3,7 @@ const express_hbs = require("express-handlebars");
 
 // Creamos el servidor de apps express
 const app = express();
+const PORT = 3005;
 
 // Caché
 // app.enable('view cache');
@@ -34,4 +35,6 @@ app.use('/misitio', mysite);
 app.use(express.static('public'));
 
 // Levanto el servidor en puerto 3005
-app.listen(3005)
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+});
