@@ -30,7 +30,15 @@
   {{else}}
   <p>No se encontraron detalles de las tecnologías</p>
   {{/if}}
-
+  <br>
+  <h3>Proyectos personales</h3>
+  {{#if proyectos}}
+  {{#each proyectos}}
+    <p>Nombre: {{this.descripcion}} | Tecnologías aplicadas: {{this.tecnologias_pp}}</p>
+  {{/each}}
+  {{else}}
+  <p>No se encontraron proyectos personales</p>
+  {{/if}}
   
 </body>
 </html>

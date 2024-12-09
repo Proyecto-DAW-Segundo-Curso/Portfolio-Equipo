@@ -157,8 +157,8 @@ app.get('/miembro/:id', (req, res) => {
             console.error('Error al obtener los detalles de las tecnologías:', err);
             return res.status(500).send('Error al obtener los detalles de las tecnologías');
           }          
-        console.log(results);
-        res.render('miembro', { miembro: results[0], proyectos, miembrosIdiomas: miembrosIdiomas, miembrosTecnologias: miembrosTecnologias });
+        console.log(proyectos);
+        res.render('miembro', { miembro: results[0], proyectos: proyectos, miembrosIdiomas: miembrosIdiomas, miembrosTecnologias: miembrosTecnologias });
         });
       });   
     });
