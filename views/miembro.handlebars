@@ -6,12 +6,41 @@
   <title>Detalle del Miembro</title>
 </head>
 <body>
-  <h1>{{miembro.nombre}} {{miembro.apellidos}}</h1>
-  <p>Titulación: {{miembro.titulos}}</p>
-  <p>Tecnologías: {{miembro.tecnologias}}</p>
-  <p>Idiomas: {{miembro.idiomas}}</p>
-  <p>Proyectos personales: {{miembro.proyectos_personales}}</p>
+  <h1>Detalle del miembro</h1>
+  <br>
+  <h2>{{miembro.nombre}} {{miembro.apellido}}</h2>
+  <br>
+  <p>Titulación: {{miembro.titulacion}}</p>
+  <p>Servicios: {{miembro.servicios}}</p>
+<br>
+  <h3>Idiomas</h3>
+  {{#if miembrosIdiomas}}
+  {{#each miembrosIdiomas}}
+    <p>{{this.idioma}} | {{this.nivel_idioma}}</p> 
+  {{/each}}
+  {{else}}
+  <p>No se encontraron detalles del miembro</p>
+  {{/if}}
+  <br>
+  <h3>Tecnologías</h3>
+  {{#if miembrosTecnologias}}
+  {{#each miembrosTecnologias}}
+    <p>{{this.tecnologia}} | {{this.nivel_tecnologia}}</p> 
+  {{/each}}
+  {{else}}
+  <p>No se encontraron detalles de las tecnologías</p>
+  {{/if}}
+  <br>
+  <h3>Proyectos personales</h3>
+  {{#if proyectos}}
+  {{#each proyectos}}
+    <p>Nombre: {{this.descripcion}} | Tecnologías aplicadas: {{this.tecnologias_pp}}</p>
+  {{/each}}
+  {{else}}
+  <p>No se encontraron proyectos personales</p>
+  {{/if}}
+  
 </body>
 </html>
-
+<br>
 <p><a href="/">Volver al inicio</a></p>
