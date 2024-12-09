@@ -8,15 +8,15 @@
 <body>
   <h1>Bienvenidos a nuestro portfolio</h1>
 
-  <h2>Trabajos realizados:</h2>
+  <a href="/trabajos">Trabajos realizados</a>
    <ul>
   {{#if trabajos.length}}
     {{#each trabajos}}
       <li>
         <h3>{{this.titulo}}</h3>
         <p>{{this.descripcion}}</p>
-        <p>Empresa: {{this.empresa}}</p>
-        <p>Tecnologías: {{this.tecnologias}}</p>
+        <p>Empresa: {{this.Empresa}}</p>
+        <p>Tecnologías: {{this.Tecnologias}}</p>
       </li>
     {{/each}}
   {{else}}
@@ -29,10 +29,10 @@
   {{#if miembros.length}}
     {{#each miembros}}
       <li>
-        <h3>{{this.nombre}} {{this.apellidos}}</h3>
-        <p>Título: {{this.titulos}}</p>
-        <p>Tecnologías: {{this.tecnologias}}</p>
-        <p>Idiomas: {{this.idiomas}}</p>
+        <h3>{{this.nombre}} {{this.apellido}}</h3>
+        <p>Titulación: {{this.titulacion}}</p>
+        <p>Servicios: {{this.servicios}}</p>
+        <p>Equipo: {{this.nombre_equipo}}</p>
         <a href="/miembro/{{this.id}}">Ver más detalles</a>
       </li>
     {{/each}}
