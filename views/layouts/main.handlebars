@@ -1,31 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    body {
-      background-color: bisque;
-      font-family: Lato, sans-serif;
-      padding: 1em;
-    }
-  </style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Freelance</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Referencia al archivo CSS -->
 </head>
-
-
 <body>
-  <h1>Utilizando Handlebars</h1>
-  <span>
-    <a href="/">Home</a>
-    <a href="clientes">Clientes</a>
-  </span>
+    {{{header}}}  <!-- Incluir el encabezado -->
+    
+    <div class="container">
+        {{{body}}}  <!-- El contenido específico de cada página -->
+    </div>
 
-  {{!-- INICIO CONTENIDO --}}
-  {{{body}}}
-  {{!-- FIN CONTENIDO --}}
+    {{{footer}}}  <!-- Incluir el pie de página -->
 </body>
-
 </html>
+
