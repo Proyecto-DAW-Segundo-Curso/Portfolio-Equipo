@@ -58,24 +58,52 @@ FROM
 LEFT JOIN 
     Equipo ON Usuario.id_equipo = Equipo.id`
 
-const miembrosDetalle = `
+    // u.id AS id_usuario,
+    // u.nombre,
+    // u.apellido,
+    // u.titulacion,
+    // t.nombre AS tecnologia,
+    // n.descripcion AS nivel_tecnologia,
+
+//     LEFT JOIN 
+//     usuario_tecnologias ut ON u.id = ut.id_usuario
+// LEFT JOIN 
+//     tecnologias t ON ut.id_tecnologia = t.id
+// LEFT JOIN 
+//     nivel n ON ut.id_nivel = n.id
+
+
+
+const miembrosIdiomas = `
 SELECT 
-    u.id,
-    u.nombre, 
-    u.apellido, 
-    u.titulacion,
-    -- Tecnologías y su nivel
-    GROUP_CONCAT(DISTINCT CONCAT(t.nombre, ' (Nivel: ', n.descripcion, ')') SEPARATOR ', ') AS tecnologias,
-    -- Idiomas y su nivel
-    GROUP_CONCAT(DISTINCT CONCAT(i.nombre_idioma, ' (Nivel: ', n2.descripcion, ')') SEPARATOR ', ') AS idiomas
-FROM Usuario u
-LEFT JOIN usuario_tecnologias ut ON u.id = ut.id_usuario
-LEFT JOIN Tecnologias t ON ut.id_tecnologia = t.id
-LEFT JOIN Nivel n ON ut.id_nivel = n.id
-LEFT JOIN usuario_idioma ui ON u.id = ui.id_usuario
-LEFT JOIN Idiomas i ON ui.id_idioma = i.id
-LEFT JOIN Nivel n2 ON ui.id_nivel = n2.id
-GROUP BY u.id
+    i.nombre_idioma AS idioma,
+    n2.descripcion AS nivel_idioma
+FROM 
+    usuario u
+LEFT JOIN 
+    usuario_idioma ui ON u.id = ui.id_usuario
+LEFT JOIN 
+    idiomas i ON ui.id_idioma = i.id
+LEFT JOIN 
+    nivel n2 ON ui.id_nivel = n2.id
+WHERE 
+    u.id = ?
+`
+
+const miembrosTecnologias = `
+SELECT 
+    t.nombre AS tecnologia,
+    n.descripcion AS nivel_tecnologia
+FROM 
+    usuario u
+LEFT JOIN 
+    usuario_tecnologias ut ON u.id = ut.id_usuario
+LEFT JOIN 
+    tecnologias t ON ut.id_tecnologia = t.id
+LEFT JOIN 
+    nivel n ON ut.id_nivel = n.id
+WHERE 
+    u.id = ?
 `
 
 // Rutas
@@ -93,15 +121,7 @@ app.get('/', (req, res) => {
         return res.status(500).send('Error al obtener los miembros');
       }
 
-      db.query(miembrosDetalle, (err, miembrosDetalle) => {
-        if (err) {
-          console.error('Error al obtener los detalles de los miembros:', err);
-          return res.status(500).send('Error al obtener los detalles de los miembros');
-        }
-
-        res.render('index', { trabajos, miembros, miembrosDetalle });
-      });
-      // res.render('index', { trabajos, miembros });
+      res.render('index', { trabajos, miembros });
     });
   });
 });
@@ -126,11 +146,22 @@ app.get('/miembro/:id', (req, res) => {
         return res.status(500).send('Error al obtener los proyectos personales');
       }
 
-      res.render('miembro', { miembro: results[0], proyectos });
-    
-    });
+      db.query(miembrosIdiomas, [id], (err, miembrosIdiomas) => {
+        if (err) {
+          console.error('Error al obtener los detalles de los idiomas:', err);
+          return res.status(500).send('Error al obtener los detalles de los idiomas');
+        }
 
-    // res.render('miembro', { miembro: results[0] });
+        db.query(miembrosTecnologias, [id], (err, miembrosTecnologias) => {
+          if (err) {
+            console.error('Error al obtener los detalles de las tecnologías:', err);
+            return res.status(500).send('Error al obtener los detalles de las tecnologías');
+          }          
+        console.log(results);
+        res.render('miembro', { miembro: results[0], proyectos, miembrosIdiomas: miembrosIdiomas, miembrosTecnologias: miembrosTecnologias });
+        });
+      });   
+    });
   });
 });
 
