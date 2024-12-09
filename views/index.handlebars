@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio</title>
+</head>
+<body>
+  <h1>Bienvenidos a nuestro portfolio</h1>
+
+  <h2>Trabajos realizados:</h2>
+   <ul>
+  {{#if trabajos.length}}
+    {{#each trabajos}}
+      <li>
+        <h3>{{this.titulo}}</h3>
+        <p>{{this.descripcion}}</p>
+        <p>Empresa: {{this.empresa}}</p>
+        <p>Tecnologías: {{this.tecnologias}}</p>
+      </li>
+    {{/each}}
+  {{else}}
+    <p>No se encontraron trabajos</p>
+  {{/if}}
+</ul>
+
+  <h2>Miembros del equipo:</h2> 
+   <ul>
+  {{#if miembros.length}}
+    {{#each miembros}}
+      <li>
+        <h3>{{this.nombre}} {{this.apellidos}}</h3>
+        <p>Título: {{this.titulos}}</p>
+        <p>Tecnologías: {{this.tecnologias}}</p>
+        <p>Idiomas: {{this.idiomas}}</p>
+        <a href="/miembro/{{this.id}}">Ver más detalles</a>
+      </li>
+    {{/each}}
+  {{else}}
+    <p>No se encontraron miembros</p>
+  {{/if}}
+</ul>
+
+   <p><a href="/contacto">Contáctanos</a></p>
+</body>
+</html>
+
+
+
+
