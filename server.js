@@ -58,10 +58,30 @@ FROM
 LEFT JOIN 
     Equipo ON Usuario.id_equipo = Equipo.id`
 
+const miembrosDetalle = `
+SELECT 
+    u.id,
+    u.nombre, 
+    u.apellido, 
+    u.titulacion,
+    -- Tecnologías y su nivel
+    GROUP_CONCAT(DISTINCT CONCAT(t.nombre, ' (Nivel: ', n.descripcion, ')') SEPARATOR ', ') AS tecnologias,
+    -- Idiomas y su nivel
+    GROUP_CONCAT(DISTINCT CONCAT(i.nombre_idioma, ' (Nivel: ', n2.descripcion, ')') SEPARATOR ', ') AS idiomas
+FROM Usuario u
+LEFT JOIN usuario_tecnologias ut ON u.id = ut.id_usuario
+LEFT JOIN Tecnologias t ON ut.id_tecnologia = t.id
+LEFT JOIN Nivel n ON ut.id_nivel = n.id
+LEFT JOIN usuario_idioma ui ON u.id = ui.id_usuario
+LEFT JOIN Idiomas i ON ui.id_idioma = i.id
+LEFT JOIN Nivel n2 ON ui.id_nivel = n2.id
+GROUP BY u.id
+`
+
 // Rutas
 // Página principal: Muestra trabajos y miembros
 app.get('/', (req, res) => {
-  db.query(trabajos, (err, trabajos) => {
+  db.query('SELECT * FROM trabajos', (err, trabajos) => {
     if (err) {
       console.error('Error al obtener los trabajos:', err);
       return res.status(500).send('Error al obtener los trabajos');
@@ -73,7 +93,15 @@ app.get('/', (req, res) => {
         return res.status(500).send('Error al obtener los miembros');
       }
 
-      res.render('index', { trabajos, miembros });
+      db.query(miembrosDetalle, (err, miembrosDetalle) => {
+        if (err) {
+          console.error('Error al obtener los detalles de los miembros:', err);
+          return res.status(500).send('Error al obtener los detalles de los miembros');
+        }
+
+        res.render('index', { trabajos, miembros, miembrosDetalle });
+      });
+      // res.render('index', { trabajos, miembros });
     });
   });
 });
@@ -92,24 +120,29 @@ app.get('/miembro/:id', (req, res) => {
       return res.status(404).send('Miembro no encontrado');
     }
 
-    res.render('miembro', { miembro: results[0] });
+    db.query('SELECT * FROM proyectos_personales WHERE id_usuario = ?', [id], (err, proyectos) => {
+      if (err) {
+        console.error('Error al obtener los proyectos personales:', err);
+        return res.status(500).send('Error al obtener los proyectos personales');
+      }
+
+      res.render('miembro', { miembro: results[0], proyectos });
+    
+    });
+
+    // res.render('miembro', { miembro: results[0] });
   });
 });
 
 // Trabajos realizados
 app.get('/trabajos', (req, res) => {
 
-  db.query('SELECT * FROM trabajos', (err, results) => {
+  db.query(trabajos, (err, trabajos) => {
     if (err) {
       console.error('Error al obtener los trabajos:', err);
       return res.status(500).send('Error al obtener los trabajos');
     }
-
-    if (results.length === 0) {
-      return res.status(404).send('trabajos no encontrados');
-    }
-
-    res.render('trabajos', { trabajos: results[0] });
+      res.render('trabajos', { trabajos });
   });
 });
 

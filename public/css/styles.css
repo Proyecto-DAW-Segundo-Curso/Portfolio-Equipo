@@ -16,6 +16,26 @@ h1, h2 {
     text-align: center;
 }
 
+.tarjeta {
+    display: flex;
+    flex-direction: row;
+
+}
+
+.imagen > img {
+    width: 100px;
+    height: 120px;
+    object-fit: cover; /* Ajusta la imagen sin deformarla, rellenando el contenedor */
+    overflow: hidden;
+    display: block; /* Opcional: evita que las imágenes generen un pequeño espacio debajo */
+    object-position: top; /* Muestra la parte superior de la imagen */
+}
+
+.informacion {
+    margin-left: 20px;
+
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;

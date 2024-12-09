@@ -1,7 +1,14 @@
-<h1>Datos de Contacto</h1>
+<h1>Trabajos realizados</h1>
 <ul>
     {{#each trabajos}}
-        <li>Nombre: {{this.titulo}} | Descripción: {{this.descripcion}} | Empresa: {{this.Empresa}} | Tecnologías: {{this.Tecnologias}}</li>
+    <li>
+        <h3>{{this.Trabajo}}</h3>
+        <p>{{this.Descripcion}}</p>
+        <p>Empresa: {{this.Empresa}}</p>
+        <p>Tecnologías: {{this.Tecnologias}}</p>
+
+    </li>
+
     {{/each}}
 </ul>
 
